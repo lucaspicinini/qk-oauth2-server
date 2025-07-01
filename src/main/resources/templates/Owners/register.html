@@ -1,0 +1,94 @@
+{#include main.html}
+{#title}Welcome{/title}
+
+<h2>Register</h2>
+{#form uri:Owners.register()}
+  <fieldset>
+    <input
+      name="username"
+      placeholder="Username"
+      autocomplete="given-name"
+    />
+    {#ifError "username"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "username"/}</span>
+    </p>
+    {/ifError}
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      autocomplete="email"
+    />
+    {#ifError "email"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "email"/}</span>
+    </p>
+    {/ifError}
+    <input
+      type="password"
+      name="password"
+      placeholder="Password"
+      aria-label="Password"
+      autocomplete="current-password"
+    />
+    <input
+      type="password"
+      name="passwordConfirm"
+      placeholder="Confirm Password"
+      aria-label="Confirm Password"
+      autocomplete="current-password"
+    />
+    {#ifError "password"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "password"/}</span>
+    </p>
+    {/ifError}
+
+  </fieldset>
+  <fieldset>
+    <legend>Write a secret text:</legend>
+
+    <textarea
+      name="secretText"
+      placeholder="Write a secret text..."
+      aria-label="Secret text"
+    >
+    </textarea>
+  </fieldset>
+  <fieldset>
+    <legend>Languages:</legend>
+
+    <label>
+      <input type="checkbox" name="languages" value="english" />
+      English
+    </label>
+    <label>
+      <input type="checkbox" name="languages" value="french" />
+      French
+    </label>
+    <label>
+      <input type="checkbox" name="languages" value="portuguese" />
+      Portuguese
+    </label>
+    <label>
+      <input type="checkbox" name="languages" value="spanish" />
+      Spanish
+    </label>
+    <label>
+      <input type="checkbox" name="languages" value="mandarin" />
+      Mandarin
+    </label>
+
+  </fieldset>
+
+  <input
+    type="submit"
+    value="Register"
+  />
+{/form }
+
+{/include}

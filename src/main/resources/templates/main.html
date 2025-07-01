@@ -1,28 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <!-- All files in the 'src/main/resources/web/static/' directory are served under the '/static/' prefix-->
+    <link rel="icon" type="image/svg+xml" href="/static/logo.svg"/>
     <!-- You can pass parameters from your templates to your main template and insert them -->
     <title>{#insert title/}</title>
-    <style type="text/css">
-    .head {
-      border-bottom: 1px solid black;
-      margin-bottom: 1em;
-    }
-    .head div {
-      display: inline-block;
-      margin: 0.5em;
-    }
-    </style>
-    {#insert moreStyles /}
-    {#insert moreScripts /}
+    {#bundle /}
   </head>
   <body>
-    <div class="head">
-      <!-- You can make links to actions using the uri: namespace -->
-      <div><a href="{uri:Todos.index}">Index</a></div>
-      <div><a href="{uri:Todos.todos}">Todos</a></div>
-    </div>
-    <!-- This inserts the body of your templates -->
-    {#insert /}
+    {! <a href="{uri:Owners.index}">Index</a> !}
+
+    <main class="container">
+      <h1>QK oauth2-server</h1>
+      <!-- This inserts the body of your templates -->
+      {#insert /}
+    </main>
   </body>
 </html>

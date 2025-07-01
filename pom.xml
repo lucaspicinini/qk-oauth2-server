@@ -31,6 +31,11 @@
 
     <dependencies>
         <dependency>
+          <groupId>io.quarkiverse.renarde</groupId>
+          <artifactId>quarkus-renarde-security</artifactId>
+          <version>3.1.0</version>
+        </dependency>
+        <dependency>
             <groupId>io.quarkiverse.renarde</groupId>
             <artifactId>quarkus-renarde</artifactId>
             <version>3.1.0</version>
