@@ -1,0 +1,16 @@
+<div>
+  <input
+    type="{type ?: ''}"
+    name="{name}"
+    placeholder="{placeholder ?: ''}"
+    autocomplete="{autocomplete ?: ''}"
+    {#ifError name}aria-invalid="true"{/ifError}
+  />
+
+  {#ifError name}
+  <p>
+    <span>Ooops! </span>
+    <span>{#error name/}</span>
+  </p>
+  {/ifError}
+</div>
