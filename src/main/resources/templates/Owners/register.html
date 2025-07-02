@@ -1,13 +1,15 @@
 {#include main.html}
-{#title}Welcome{/title}
+{#title}Owner Register{/title}
 
-<h2>Register</h2>
+{#pageH2}Register{/pageH2}
+
 {#form uri:Owners.register()}
-  <fieldset>
+  <fieldset class="grid">
     <input
+      type="text"
       name="username"
       placeholder="Username"
-      autocomplete="given-name"
+      autocomplete="username"
     />
     {#ifError "username"}
     <p>
@@ -27,6 +29,75 @@
       <span>{#error "email"/}</span>
     </p>
     {/ifError}
+  </fieldset>
+
+  <fieldset class="grid">
+    <input
+      type="text"
+      name="givenName"
+      placeholder="Name"
+      autocomplete="given-name"
+    />
+    {#ifError "givenName"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "givenName"/}</span>
+    </p>
+    {/ifError}
+    <input
+      type="text"
+      name="familyName"
+      placeholder="Lastname"
+      autocomplete="family-name"
+    />
+    {#ifError "familyName"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "familyName"/}</span>
+    </p>
+    {/ifError}
+  </fieldset>
+
+  <fieldset class="grid">
+    <div>
+      <input
+        aria-describedby="phone"
+        type="tel"
+        name="phone"
+        placeholder="Phone"
+        autocomplete="tel-national"
+      />
+      <small id="phone">
+        Eleven digits. Only numbers.
+      </small>
+    </div>
+    {#ifError "phone"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "phone"/}</span>
+    </p>
+    {/ifError}
+    <div>
+      <input
+        aria-describedby="birthdate"
+        type="date"
+        name="birthdate"
+        placeholder="Birthdate"
+        autocomplete="bday"
+      />
+      <small id="birthdate">
+        Your birthdate.
+      </small>
+    </div>
+    {#ifError "birthdate"}
+    <p>
+      <span>Ooops! </span>
+      <span>{#error "birthdate"/}</span>
+    </p>
+    {/ifError}
+  </fieldset>
+
+  <fieldset class="grid">
     <input
       type="password"
       name="password"
@@ -47,18 +118,28 @@
       <span>{#error "password"/}</span>
     </p>
     {/ifError}
-
   </fieldset>
+
+  <hr>
+
+  <h3>Optional information:</h3>
   <fieldset>
-    <legend>Write a secret text:</legend>
-
-    <textarea
-      name="secretText"
-      placeholder="Write a secret text..."
-      aria-label="Secret text"
-    >
-    </textarea>
+    <input
+      type="url"
+      name="website"
+      placeholder="Website"
+      autocomplete="url"
+    />
+    <label>
+      Write a secret text...
+      <textarea
+        name="secretText"
+        aria-label="Secret text"
+      >
+      </textarea>
+    </label>
   </fieldset>
+
   <fieldset>
     <legend>Languages:</legend>
 
@@ -82,13 +163,9 @@
       <input type="checkbox" name="languages" value="mandarin" />
       Mandarin
     </label>
-
   </fieldset>
 
-  <input
-    type="submit"
-    value="Register"
-  />
+  <input type="submit" value="Register"/>
 {/form }
 
 {/include}

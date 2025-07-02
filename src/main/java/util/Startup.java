@@ -1,5 +1,7 @@
 package util;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 import io.quarkus.runtime.LaunchMode;
@@ -25,7 +27,11 @@ public class Startup {
   void createTestUser() {
     Owner testUser = new Owner();
     testUser.username = "Gordela";
-    testUser.email = "test@test.com";
+    testUser.phone = "21973637288";
+    testUser.birthdate = LocalDate.of(1991, 7, 16);
+    testUser.email = "gordela@gordela.com";
+    testUser.givenName = "Lucas";
+    testUser.familyName = "Picinini";
     testUser.password = "$2a$12$UFxV6SHv7RifemMX0SVa2eOwv9QBu/SivdgDbDEQfYAbjzp1ilZ/2";
     testUser.secretText = "My Secret.";
     var languages = new HashSet<String>();
@@ -33,6 +39,8 @@ public class Startup {
     languages.add("mandarin");
     languages.add("english");
     testUser.languages = languages;
+    testUser.createdAt = LocalDateTime.now();
+    testUser.updatedAt = LocalDateTime.now();
     testUser.status = true;
     testUser.isAdmin = false;
     testUser.persist();

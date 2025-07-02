@@ -11,11 +11,26 @@
     {#bundle /}
   </head>
   <body>
-    {! <a href="{uri:Owners.index}">Index</a> !}
+    <header class="container">
+      <nav>
+        <ul>
+          <li><a href="{uri:Home.home}"><h1>QK Oauth2 Server</h1></a></li>
+        </ul>
+        <ul>
+          <li><a role="button" href="{uri:Owners.owners}">API Clients</a></li>
+          <li><a role="button" href="{uri:Owners.owners}">Resource Owners</a></li>
+        </ul>
+      </nav>
+    </header>
 
     <main class="container">
-      <h1>QK oauth2-server</h1>
-      <!-- This inserts the body of your templates -->
+      <hgroup>
+        <h2>{#insert pageH2/}</h2>
+        <hr>
+        <h3>{#insert pageH3/}</h3>
+        {#insert pageContent/}
+      </hgroup>
+
       {#insert /}
     </main>
   </body>

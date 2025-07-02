@@ -1,5 +1,7 @@
 package rest;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
@@ -11,6 +13,9 @@ import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import model.Owner;
@@ -20,8 +25,14 @@ public class Owners extends Controller {
 
   @CheckedTemplate
   public static class Templates {
+    public static native TemplateInstance owners();
     public static native TemplateInstance register();
     public static native TemplateInstance granted();
+  }
+
+  @Path("/")
+  public TemplateInstance owners() {
+    return Templates.owners();
   }
 
   @Path("/register")
@@ -34,18 +45,37 @@ public class Owners extends Controller {
     return Templates.granted();
   }
 
+
+
   @POST
   @Path("/register")
   public void register(
-    @RestForm @NotBlank @Length(max = 50) String username,
+    @RestForm @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers and underscores")
+    @NotBlank @Length(max = 100) String username,
+
+    @RestForm @Pattern(regexp = "\\d{11}", message = "Phone must contain exactly 11 numeric digits")
+    @NotBlank String phone,
+
+    @RestForm @Pattern(regexp = "^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
+    @Length(max = 255) String website,
+
+    @RestForm @NotNull(message = "Birthdate is required")
+    @Past(message = "Birthdate must be in the past") LocalDate birthdate,
+
     @RestForm @Email @NotBlank @Length(max = 255) String email,
+    @RestForm @NotBlank @Length(max = 100) String givenName,
+    @RestForm @NotBlank @Length(max = 100) String familyName,
     @RestForm @Length(min = 8) String password,
     @RestForm @Length(min = 8) String passwordConfirm,
     @RestForm @Length(max = 2048) String secretText,
     @RestForm Set<String> languages
   ) {
     validation.required("username", username);
+    validation.required("phone", phone);
     validation.required("email", email);
+    validation.required("givenName", givenName);
+    validation.required("familyName", familyName);
+    validation.required("birthdate", birthdate);
     validation.required("password", password);
     validation.required("passwordConfirm", passwordConfirm);
     validation.equals("password", password, passwordConfirm);
@@ -60,12 +90,20 @@ public class Owners extends Controller {
 
     Owner owner = new Owner();
     owner.username = username.trim();
+    owner.phone = phone;
+    owner.website = website;
+    owner.birthdate = birthdate;
     owner.email = email.trim();
+    owner.givenName = givenName.trim();
+    owner.familyName = familyName.trim();
     owner.password = BcryptUtil.bcryptHash(password);
-    owner.status = true;
-    owner.isAdmin = false;
     owner.secretText = secretText;
     owner.languages = languages;
+
+    owner.createdAt = LocalDateTime.now();
+    owner.updatedAt = LocalDateTime.now();
+    owner.status = true;
+    owner.isAdmin = false;
     owner.persist();
 
     granted();
