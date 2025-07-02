@@ -5,57 +5,33 @@
 
 {#form uri:Owners.register()}
   <fieldset class="grid">
-    <input
+    {#formElement
       type="text"
       name="username"
       placeholder="Username"
       autocomplete="username"
-    />
-    {#ifError "username"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "username"/}</span>
-    </p>
-    {/ifError}
-    <input
+    /}
+    {#formElement
       type="email"
       name="email"
       placeholder="Email"
       autocomplete="email"
-    />
-    {#ifError "email"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "email"/}</span>
-    </p>
-    {/ifError}
+    /}
   </fieldset>
 
   <fieldset class="grid">
-    <input
+    {#formElement
       type="text"
       name="givenName"
       placeholder="Name"
       autocomplete="given-name"
-    />
-    {#ifError "givenName"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "givenName"/}</span>
-    </p>
-    {/ifError}
-    <input
+    /}
+    {#formElement
       type="text"
       name="familyName"
       placeholder="Lastname"
       autocomplete="family-name"
-    />
-    {#ifError "familyName"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "familyName"/}</span>
-    </p>
-    {/ifError}
+    /}
   </fieldset>
 
   <fieldset class="grid">
@@ -66,17 +42,18 @@
         name="phone"
         placeholder="Phone"
         autocomplete="tel-national"
+        {#ifError "phone"}aria-invalid="true"{/ifError}
       />
       <small id="phone">
         Eleven digits. Only numbers.
       </small>
+      {#ifError "phone"}
+      <p>
+        <span>Ooops! </span>
+        <span>{#error "phone"/}</span>
+      </p>
+      {/ifError}
     </div>
-    {#ifError "phone"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "phone"/}</span>
-    </p>
-    {/ifError}
     <div>
       <input
         aria-describedby="birthdate"
@@ -84,52 +61,45 @@
         name="birthdate"
         placeholder="Birthdate"
         autocomplete="bday"
+        {#ifError "birthdate"}aria-invalid="true"{/ifError}
       />
       <small id="birthdate">
         Your birthdate.
       </small>
+      {#ifError "birthdate"}
+      <p>
+        <span>Ooops! </span>
+        <span>{#error "birthdate"/}</span>
+      </p>
+      {/ifError}
     </div>
-    {#ifError "birthdate"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "birthdate"/}</span>
-    </p>
-    {/ifError}
   </fieldset>
 
   <fieldset class="grid">
-    <input
+    {#formElement
       type="password"
       name="password"
       placeholder="Password"
-      aria-label="Password"
       autocomplete="current-password"
-    />
-    <input
+    /}
+    {#formElement
       type="password"
       name="passwordConfirm"
       placeholder="Confirm Password"
-      aria-label="Confirm Password"
       autocomplete="current-password"
-    />
-    {#ifError "password"}
-    <p>
-      <span>Ooops! </span>
-      <span>{#error "password"/}</span>
-    </p>
-    {/ifError}
+    /}
   </fieldset>
 
   <hr>
 
   <h3>Optional information:</h3>
   <fieldset>
-    <input
+    {#formElement
       type="url"
       name="website"
       placeholder="Website"
       autocomplete="url"
-    />
+    /}
     <label>
       Write a secret text...
       <textarea
