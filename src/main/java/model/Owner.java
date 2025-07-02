@@ -39,7 +39,7 @@ public class Owner extends PanacheEntityBase implements RenardeUser {
   public String phone;
 
   @Column(length = 255)
-  @Pattern(regexp = "^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
+  @Pattern(regexp = "^$|^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
   public String website;
 
   @Column(nullable = false)

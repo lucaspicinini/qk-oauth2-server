@@ -23,11 +23,12 @@ import model.Owner;
 @Path("/owners")
 public class Owners extends Controller {
 
+  // Templates
   @CheckedTemplate
   public static class Templates {
     public static native TemplateInstance owners();
+    public static native TemplateInstance dashboard();
     public static native TemplateInstance register();
-    public static native TemplateInstance granted();
   }
 
   @Path("/")
@@ -35,18 +36,17 @@ public class Owners extends Controller {
     return Templates.owners();
   }
 
+  @Path("/dashboard")
+  public TemplateInstance dashboard() {
+    return Templates.dashboard();
+  }
+
   @Path("/register")
   public TemplateInstance registerForm() {
     return Templates.register();
   }
 
-  @Path("/granted")
-  public TemplateInstance granted() {
-    return Templates.granted();
-  }
-
-
-
+  // Actions
   @POST
   @Path("/register")
   public void register(
@@ -56,7 +56,7 @@ public class Owners extends Controller {
     @RestForm @Pattern(regexp = "\\d{11}", message = "Phone must contain exactly 11 numeric digits")
     @NotBlank String phone,
 
-    @RestForm @Pattern(regexp = "^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
+    @RestForm @Pattern(regexp = "^$|^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
     @Length(max = 255) String website,
 
     @RestForm @NotNull(message = "Birthdate is required")
@@ -76,8 +76,6 @@ public class Owners extends Controller {
     validation.required("givenName", givenName);
     validation.required("familyName", familyName);
     validation.required("birthdate", birthdate);
-    validation.required("password", password);
-    validation.required("passwordConfirm", passwordConfirm);
     validation.equals("password", password, passwordConfirm);
 
     if (Owner.findByEmail(email) != null)
@@ -106,6 +104,6 @@ public class Owners extends Controller {
     owner.isAdmin = false;
     owner.persist();
 
-    granted();
+    owners();
   }
 }
