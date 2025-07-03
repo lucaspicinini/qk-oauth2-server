@@ -16,6 +16,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import model.Owner;
@@ -65,17 +66,11 @@ public class Owners extends Controller {
     @RestForm @Email @NotBlank @Length(max = 255) String email,
     @RestForm @NotBlank @Length(max = 100) String givenName,
     @RestForm @NotBlank @Length(max = 100) String familyName,
-    @RestForm @Length(min = 8) String password,
-    @RestForm @Length(min = 8) String passwordConfirm,
+    @RestForm @Size(min = 8) String password,
+    @RestForm @Size(min = 8) String passwordConfirm,
     @RestForm @Length(max = 2048) String secretText,
     @RestForm Set<String> languages
   ) {
-    validation.required("username", username);
-    validation.required("phone", phone);
-    validation.required("email", email);
-    validation.required("givenName", givenName);
-    validation.required("familyName", familyName);
-    validation.required("birthdate", birthdate);
     validation.equals("password", password, passwordConfirm);
 
     if (Owner.findByEmail(email) != null)
