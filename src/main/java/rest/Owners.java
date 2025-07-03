@@ -6,11 +6,15 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
 import org.jboss.resteasy.reactive.RestForm;
+import org.postgresql.util.PSQLException;
+import org.postgresql.util.ServerErrorMessage;
 
 import io.quarkiverse.renarde.Controller;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -51,33 +55,33 @@ public class Owners extends Controller {
   @POST
   @Path("/register")
   public void register(
-    @RestForm @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers and underscores")
-    @NotBlank @Length(max = 100) String username,
+    @RestForm @Pattern(regexp = "^[a-zA-Z0-9_]+$", message = "Username can only contain letters, numbers and underscores.")
+    @NotBlank(message = "This field is required.") @Length(max = 100) String username,
 
     @RestForm @Pattern(regexp = "\\d{11}", message = "Phone must contain exactly 11 numeric digits")
-    @NotBlank String phone,
+    @NotBlank(message = "This field is required.") String phone,
 
     @RestForm @Pattern(regexp = "^$|^(https?://)?[\\w.-]+(\\.[\\w.-]+)+[/#?]?.*$", message = "Invalid website URL")
     @Length(max = 255) String website,
 
-    @RestForm @NotNull(message = "Birthdate is required")
-    @Past(message = "Birthdate must be in the past") LocalDate birthdate,
+    @RestForm @NotNull(message = "Birthdate is required.")
+    @Past(message = "Birthdate must be in the past.") LocalDate birthdate,
 
-    @RestForm @Email @NotBlank @Length(max = 255) String email,
-    @RestForm @NotBlank @Length(max = 100) String givenName,
-    @RestForm @NotBlank @Length(max = 100) String familyName,
-    @RestForm @Size(min = 8) String password,
-    @RestForm @Size(min = 8) String passwordConfirm,
+    @RestForm @Email @NotBlank(message = "This field is required.") @Length(max = 255) String email,
+    @RestForm @NotBlank(message = "This field is required.") @Length(max = 100) String givenName,
+    @RestForm @NotBlank(message = "This field is required.") @Length(max = 100) String familyName,
+    @RestForm @Size(min = 8, message = "Password must be at least 8 characters long.") String password,
+    @RestForm @Size(min = 8, message = "Password must be at least 8 characters long.") String passwordConfirm,
     @RestForm @Length(max = 2048) String secretText,
     @RestForm Set<String> languages
   ) {
     validation.equals("password", password, passwordConfirm);
 
     if (Owner.findByEmail(email) != null)
-      validation.addError("email", "Email already in use");
+      validation.addError("email", "Email already in use.");
 
     if (Owner.findByUsername(username) != null)
-      validation.addError("username", "Username already taken");
+      validation.addError("username", "Username already taken.");
 
     if (validationFailed()) registerForm();
 
@@ -97,8 +101,10 @@ public class Owners extends Controller {
     owner.updatedAt = LocalDateTime.now();
     owner.status = true;
     owner.isAdmin = false;
-    owner.persist();
 
+    if(!owner.isPersistent()) registerForm();
+
+    owner.persist();
     owners();
   }
 }
