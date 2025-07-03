@@ -27,7 +27,7 @@ public class Startup {
   void createTestUser() {
     Owner testUser = new Owner();
     testUser.username = "Gordela";
-    testUser.phone = "21973637288";
+    testUser.phone = "21973637280";
     testUser.birthdate = LocalDate.of(1991, 7, 16);
     testUser.email = "gordela@gordela.com";
     testUser.givenName = "Lucas";
