@@ -7,10 +7,14 @@ import java.util.Set;
 import org.hibernate.validator.constraints.Length;
 import org.jboss.resteasy.reactive.RestForm;
 
-import io.quarkiverse.renarde.Controller;
+import io.quarkiverse.renarde.router.Router;
+import io.quarkiverse.renarde.security.ControllerWithUser;
+import io.quarkiverse.renarde.security.RenardeSecurity;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
+import io.quarkus.security.Authenticated;
+import jakarta.inject.Inject;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,17 +23,23 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.NewCookie;
+import jakarta.ws.rs.core.Response;
 import model.Owner;
 
 @Path("/owners")
-public class Owners extends Controller {
+public class Owners extends ControllerWithUser<Owner> {
+  @Inject
+  RenardeSecurity security;
 
   // Templates
   @CheckedTemplate
   public static class Templates {
     public static native TemplateInstance owners();
-    public static native TemplateInstance dashboard();
     public static native TemplateInstance register();
+    public static native TemplateInstance login();
+    public static native TemplateInstance dashboard();
+    public static native TemplateInstance logout();
   }
 
   @Path("/")
@@ -37,14 +47,28 @@ public class Owners extends Controller {
     return Templates.owners();
   }
 
+  @Path("/register")
+  public TemplateInstance registerForm() {
+    checkLogout();
+    return Templates.register();
+  }
+
+  @Path("/login")
+  public TemplateInstance loginForm() {
+    checkLogout();
+    return Templates.login();
+  }
+
+  @Authenticated
   @Path("/dashboard")
   public TemplateInstance dashboard() {
     return Templates.dashboard();
   }
 
-  @Path("/register")
-  public TemplateInstance registerForm() {
-    return Templates.register();
+  @Authenticated
+  @Path("/logout")
+  public TemplateInstance logoutForm() {
+    return Templates.logout();
   }
 
   // Actions
@@ -101,9 +125,41 @@ public class Owners extends Controller {
     owner.status = true;
     owner.isAdmin = false;
 
-
     owner.persist();
     flash("success", "User successfully registered.");
     owners();
+  }
+
+  @POST
+  @Path("/login")
+  public Response login(
+    @RestForm @Pattern(regexp = "\\d{11}", message = "Phone must contain exactly 11 numeric digits")
+    @NotBlank(message = "This field is required.")
+    String phone,
+    @RestForm @Size(min = 8, message = "Password must be at least 8 characters long.")
+    String password
+  ) {
+    Owner owner = Owner.findByPhone(phone);
+
+    if (owner == null)
+      validation.addError("phone", "This phone is not registered.");
+
+    if (owner != null && !BcryptUtil.matches(password, owner.password))
+      validation.addError("password", "Invalid password.");
+
+    if (validationFailed()) loginForm();
+
+    NewCookie cookie = security.makeUserCookie(owner);
+
+    return Response.seeOther(Router.getURI(Owners::dashboard))
+      .cookie(cookie)
+      .build();
+  }
+
+  private void checkLogout() {
+    if (getUser() != null) {
+      flash("logoutFirst", "You have been logged out first.");
+      logoutForm();
+    }
   }
 }

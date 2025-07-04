@@ -9,8 +9,14 @@
 {#pageContent}
   <br>
   <div class="grid">
-    <a role="button" class="secondary" href="{uri:Owners.registerForm}">Register</a>
-    <a role="button" class="secondary" href="#">Login</a>
+    {#if inject:user}
+      <a role="button" class="secondary" href="{uri:Owners.dashboard}">Dashboard</a>
+      <a role="button" class="secondary" href="{uri:Owners.logoutForm}">Logout</a>
+    {/if}
+    {#if !inject:user}
+      <a role="button" class="secondary" href="{uri:Owners.registerForm}">Register</a>
+      <a role="button" class="secondary" href="{uri:Owners.loginForm}">Login</a>
+    {/if}
   </div>
 {/pageContent}
 

@@ -1,0 +1,15 @@
+{#include main.html}
+{#title}Owner Logout{/title}
+
+{#pageH2}Logout{/pageH2}
+
+{#pageContent}
+  {#if flash:logoutFirst}
+    <article style="background-color: #954A50; color: #FFFFFF;">
+      {flash:logoutFirst}
+    </article>
+  {/if}
+  <a href="/_renarde/security/logout" role="button" class="secondary" style="display: block; color: #FFFFFF;">Logout</a>
+{/pageContent}
+
+{/include}

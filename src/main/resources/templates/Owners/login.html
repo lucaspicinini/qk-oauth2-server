@@ -1,0 +1,28 @@
+{#include main.html}
+{#title}Owner Login{/title}
+
+{#pageH2}Login{/pageH2}
+
+{#form uri:Owners.login()}
+  <fieldset>
+    {#formElement
+      type="tel"
+      name="phone"
+      placeholder="Phone"
+      autocomplete="tel-national"
+    /}
+  </fieldset>
+
+  <fieldset>
+    {#formElement
+      type="password"
+      name="password"
+      placeholder="Password"
+      autocomplete="current-password"
+    /}
+  </fieldset>
+
+  <input type="submit" value="Login"/>
+{/form }
+
+{/include}

@@ -65,7 +65,7 @@ public class Owner extends PanacheEntityBase implements RenardeUser {
 
   @Override
   public String userId() {
-    return email;
+    return phone;
   }
 
   @Override

@@ -15,7 +15,7 @@ public class SecuritySetup implements RenardeUserProvider {
     RenardeSecurity security;
 
     @Override
-    public RenardeUser findUser(String tenantId, String email) {
-        return Owner.findByEmail(email);
+    public RenardeUser findUser(String tenantId, String phone) {
+        return Owner.findByPhone(phone);
     }
 }
