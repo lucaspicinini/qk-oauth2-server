@@ -14,4 +14,10 @@
   </div>
 {/pageContent}
 
+{#if flash:success}
+  <article style="background-color: #398712; color: #FFFFFF;">
+    {flash:success}
+  </article>
+{/if}
+
 {/include}
