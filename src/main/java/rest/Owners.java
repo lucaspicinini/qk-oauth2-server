@@ -6,15 +6,11 @@ import java.util.Set;
 
 import org.hibernate.validator.constraints.Length;
 import org.jboss.resteasy.reactive.RestForm;
-import org.postgresql.util.PSQLException;
-import org.postgresql.util.ServerErrorMessage;
 
 import io.quarkiverse.renarde.Controller;
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
-import jakarta.transaction.Transactional;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -77,6 +73,9 @@ public class Owners extends Controller {
   ) {
     validation.equals("password", password, passwordConfirm);
 
+    if (Owner.findByPhone(phone) != null)
+      validation.addError("phone", "Phone already in use.");
+
     if (Owner.findByEmail(email) != null)
       validation.addError("email", "Email already in use.");
 
@@ -102,9 +101,9 @@ public class Owners extends Controller {
     owner.status = true;
     owner.isAdmin = false;
 
-    if(!owner.isPersistent()) registerForm();
 
     owner.persist();
+    flash("success", "User successfully registered.");
     owners();
   }
 }
