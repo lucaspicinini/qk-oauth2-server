@@ -85,6 +85,10 @@ public class Owner extends PanacheEntityBase implements RenardeUser {
     return roles;
   }
 
+  public static Owner findByPhone(String phone) {
+    return find("phone = ?1", phone).firstResult();
+  }
+
   public static Owner findByEmail(String email) {
     return find("LOWER(email) = ?1", email.toLowerCase()).firstResult();
   }
