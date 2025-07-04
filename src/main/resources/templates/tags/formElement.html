@@ -4,12 +4,21 @@
     name="{name}"
     placeholder="{placeholder ?: ''}"
     autocomplete="{autocomplete ?: ''}"
+    value="{inject:flash.get(name)}"
     {#ifError name}aria-invalid="true"{/ifError}
   />
 
+  {#if name == "phone"}
+    <small>Eleven digits. Only numbers.</small>
+  {/if}
+
+  {#if name == "birthdate"}
+    <small>Your birthdate.</small>
+  {/if}
+
   {#ifError name}
   <p>
-    <span>{#error name/}</span>
+    <span style="color: #954A50;">{#error name/}</span>
   </p>
   {/ifError}
 </div>
