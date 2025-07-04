@@ -35,42 +35,18 @@
   </fieldset>
 
   <fieldset class="grid">
-    <div>
-      <input
-        aria-describedby="phone"
-        type="tel"
-        name="phone"
-        placeholder="Phone"
-        autocomplete="tel-national"
-        {#ifError "phone"}aria-invalid="true"{/ifError}
-      />
-      <small id="phone">
-        Eleven digits. Only numbers.
-      </small>
-      {#ifError "phone"}
-      <p>
-        <span>{#error "phone"/}</span>
-      </p>
-      {/ifError}
-    </div>
-    <div>
-      <input
-        aria-describedby="birthdate"
-        type="date"
-        name="birthdate"
-        placeholder="Birthdate"
-        autocomplete="bday"
-        {#ifError "birthdate"}aria-invalid="true"{/ifError}
-      />
-      <small id="birthdate">
-        Your birthdate.
-      </small>
-      {#ifError "birthdate"}
-      <p>
-        <span>{#error "birthdate"/}</span>
-      </p>
-      {/ifError}
-    </div>
+    {#formElement
+      type="tel"
+      name="phone"
+      placeholder="Phone"
+      autocomplete="tel-national"
+    /}
+    {#formElement
+      type="date"
+      name="birthdate"
+      placeholder="Birthdate"
+      autocomplete="bday"
+    /}
   </fieldset>
 
   <fieldset class="grid">
