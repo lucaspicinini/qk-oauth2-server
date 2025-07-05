@@ -1,0 +1,31 @@
+
+<div>
+  <input
+    type="{type ?: ''}"
+    name="{name}"
+    placeholder="{placeholder ?: ''}"
+    autocomplete="{autocomplete ?: ''}"
+    {#if name == "username"}value="{inject:user.username}"{/if}
+    {#if name == "email"}value="{inject:user.email}"{/if}
+    {#if name == "givenName"}value="{inject:user.givenName}"{/if}
+    {#if name == "familyName"}value="{inject:user.familyName}"{/if}
+    {#if name == "phone"}value="{inject:user.phone}"{/if}
+    {#if name == "birthdate"}value="{inject:user.birthdate}"{/if}
+    {#if name == "website"}value="{inject:user.website}"{/if}
+    {#ifError name}aria-invalid="true"{/ifError}
+  />
+
+  {#if name == "phone"}
+    <small>Eleven digits. Only numbers.</small>
+  {/if}
+
+  {#if name == "birthdate"}
+    <small>Your birthdate.</small>
+  {/if}
+
+  {#ifError name}
+  <p>
+    <span style="color: #954A50;">{#error name/}</span>
+  </p>
+  {/ifError}
+</div>

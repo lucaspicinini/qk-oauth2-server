@@ -8,7 +8,133 @@
 
 {#pageContent}
   <br>
-  <p>Dashboard</p>
+  {#form uri:Owners.register()}
+    <fieldset class="grid">
+      {#dashboardInput
+        type="text"
+        name="username"
+        placeholder="Username"
+        autocomplete="username"
+      /}
+      {#dashboardInput
+        type="email"
+        name="email"
+        placeholder="Email"
+        autocomplete="email"
+      /}
+    </fieldset>
+
+    <fieldset class="grid">
+      {#dashboardInput
+        type="text"
+        name="givenName"
+        placeholder="Name"
+        autocomplete="given-name"
+      /}
+      {#dashboardInput
+        type="text"
+        name="familyName"
+        placeholder="Lastname"
+        autocomplete="family-name"
+      /}
+    </fieldset>
+
+    <fieldset class="grid">
+      {#dashboardInput
+        type="tel"
+        name="phone"
+        placeholder="Phone"
+        autocomplete="tel-national"
+      /}
+      {#dashboardInput
+        type="date"
+        name="birthdate"
+        placeholder="Birthdate"
+        autocomplete="bday"
+      /}
+    </fieldset>
+
+    <fieldset class="grid">
+      {#dashboardInput
+        type="password"
+        name="password"
+        placeholder="Password"
+        autocomplete="current-password"
+      /}
+      {#dashboardInput
+        type="password"
+        name="passwordConfirm"
+        placeholder="Confirm Password"
+        autocomplete="current-password"
+      /}
+    </fieldset>
+
+    <hr>
+
+    <h3>Optional information:</h3>
+    <fieldset>
+      {#dashboardInput
+        type="url"
+        name="website"
+        placeholder="Website"
+        autocomplete="url"
+      /}
+      <label>
+        Write a secret text...
+        <textarea
+          name="secretText"
+          aria-label="Secret text"
+        >{#if !inject:user.secretText.isEmpty()}{inject:user.secretText}{/if}</textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Languages:</legend>
+
+      <label>
+        <input type="checkbox" name="languages" value="english"
+          {#if inject:user.languages.contains('english')}
+            checked
+          {/if}
+        />
+        English
+      </label>
+      <label>
+        <input type="checkbox" name="languages" value="french"
+          {#if inject:user.languages.contains('french')}
+            checked
+          {/if}
+        />
+        French
+      </label>
+      <label>
+        <input type="checkbox" name="languages" value="portuguese"
+          {#if inject:user.languages.contains('portuguese')}
+            checked
+          {/if}
+        />
+        Portuguese
+      </label>
+      <label>
+        <input type="checkbox" name="languages" value="spanish"
+          {#if inject:user.languages.contains('spanish')}
+            checked
+          {/if}
+        />
+        Spanish
+      </label>
+      <label>
+        <input type="checkbox" name="languages" value="mandarin"
+          {#if inject:user.languages.contains('mandarin')}
+            checked
+          {/if}
+        />
+        Mandarin
+      </label>
+    </fieldset>
+
+    <input type="submit" value="Edit information"/>
+  {/form }
 {/pageContent}
 
 {/include}
