@@ -10,12 +10,12 @@
   <br>
   <div class="grid">
     {#if inject:user}
-      <a role="button" class="secondary" href="{uri:Owners.dashboard}">Dashboard</a>
-      <a role="button" class="secondary" href="{uri:Owners.logoutForm}">Logout</a>
+      <a role="button" class="contrast" href="{uri:Owners.dashboard}">Dashboard</a>
+      <a role="button" class="contrast" href="{uri:Owners.logoutForm}">Logout</a>
     {/if}
     {#if !inject:user}
-      <a role="button" class="secondary" href="{uri:Owners.registerForm}">Register</a>
-      <a role="button" class="secondary" href="{uri:Owners.loginForm}">Login</a>
+      <a role="button" class="contrast" href="{uri:Owners.registerForm}">Register</a>
+      <a role="button" class="contrast" href="{uri:Owners.loginForm}">Login</a>
     {/if}
   </div>
 {/pageContent}
